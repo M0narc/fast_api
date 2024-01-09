@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Body, FastAPI, HTTPException
 from constants import BOOKS
 
 app = FastAPI()
@@ -49,3 +49,11 @@ async def read_author_category_by_query(book_author: str, category: str):
     if not books_to_return:
         raise HTTPException(status_code=404, detail=f'no books from author: {book_author}, have been found in the category: {category}')
     return books_to_return
+
+
+@app.post("/books/create_book")
+async def create_book(new_book=Body()):
+    """
+    function to add a new book to BOOKS constant
+    """
+    BOOKS.append(new_book)
