@@ -3,6 +3,10 @@ a proyect done with fastAPI
 
 # how to run
 uvicorn books:app --reload
+
+uvicorn books:app --reload --host localhost --port 8080
+
+
 URL: http://127.0.0.1:8000/books
 
 # swagger

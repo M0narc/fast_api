@@ -54,6 +54,20 @@ async def read_author_category_by_query(book_author: str, category: str):
 @app.post("/books/create_book")
 async def create_book(new_book=Body()):
     """
-    function to add a new book to BOOKS constant
+    Function to add a new book to BOOKS constant
     """
     BOOKS.append(new_book)
+
+
+@app.put("/books/update_book")
+async def update_book(update_book: dict = Body(...)):
+    """
+    Function to update a book.
+    """
+    title_to_update = update_book.get('title', '').casefold()
+    for i, book in enumerate(BOOKS):
+        if book.get('title', '').casefold() == title_to_update:
+            BOOKS[i] = update_book
+            return {"message": f"Book '{title_to_update}' updated successfully"}
+    
+    raise HTTPException(status_code=404, detail=f"Book '{title_to_update}' not found in our repository")
