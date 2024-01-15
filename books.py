@@ -22,7 +22,7 @@ async def read_all_books(book_title: str):
         return book
     except StopIteration:
         raise HTTPException(status_code=404, detail=f"{book_title} has not been found in our repository.")
-    
+
 
 @app.get("/books/")
 async def read_category_by_query(category: str):
@@ -33,7 +33,7 @@ async def read_category_by_query(category: str):
 
     if not books_to_return:
         raise HTTPException(status_code=404, detail=f"No books found for category: {category}.")
-    
+
     return books_to_return
 
 
@@ -42,10 +42,10 @@ async def read_author_category_by_query(book_author: str, category: str):
     """
     endpoint to return books by author name and category
     """
-    books_to_return = [book for book in BOOKS 
-                       if book.get('author').casefold() == book_author.casefold() and 
+    books_to_return = [book for book in BOOKS
+                       if book.get('author').casefold() == book_author.casefold() and
                        book.get('category').casefold() == category.casefold()]
-    
+
     if not books_to_return:
         raise HTTPException(status_code=404, detail=f'no books from author: {book_author}, have been found in the category: {category}')
     return books_to_return
@@ -69,5 +69,17 @@ async def update_book(update_book: dict = Body(...)):
         if book.get('title', '').casefold() == title_to_update:
             BOOKS[i] = update_book
             return {"message": f"Book '{title_to_update}' updated successfully"}
-    
+
     raise HTTPException(status_code=404, detail=f"Book '{title_to_update}' not found in our repository")
+
+
+@app.delete("/books/delete_book/{book_title}")
+async def delete_book(book_title):
+    """
+    Function to delete a book using it's title
+    """
+    for i, book in enumerate(BOOKS):
+        if BOOKS[i].get('title', '').casefold() == book_title:
+            BOOKS.pop(i)
+            return {"message": f"Book '{book_title}' was deleted successfully"}
+            break
