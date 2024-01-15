@@ -51,6 +51,19 @@ async def read_author_category_by_query(book_author: str, category: str):
     return books_to_return
 
 
+@app.get("/books/byauthor/{author_name}")
+async def get_books_by_author_name(author_name: str):
+    """
+    endpoint to get all books using the author name
+    """
+    books_to_return = [book for book in BOOKS if book.get('author').casefold() == author_name.casefold()]
+    print(books_to_return)
+
+    if not books_to_return:
+        raise HTTPException(status_code=404, detail=f'no books from auhor: {author_name}')
+    return books_to_return
+
+
 @app.post("/books/create_book")
 async def create_book(new_book=Body()):
     """
