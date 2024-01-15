@@ -13,7 +13,9 @@ URL: http://localhost:8080/books
 # swagger
 
 URL: http://127.0.0.1:8000/docs
-     http://localhost:8080/docs
+
+Localhost
+URL: http://localhost:8080/docs
 
 
 # query params know how
