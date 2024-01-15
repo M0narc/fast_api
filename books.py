@@ -57,7 +57,6 @@ async def get_books_by_author_name(author_name: str):
     endpoint to get all books using the author name
     """
     books_to_return = [book for book in BOOKS if book.get('author').casefold() == author_name.casefold()]
-    print(books_to_return)
 
     if not books_to_return:
         raise HTTPException(status_code=404, detail=f'no books from auhor: {author_name}')
@@ -65,7 +64,7 @@ async def get_books_by_author_name(author_name: str):
 
 
 @app.post("/books/create_book")
-async def create_book(new_book=Body()):
+async def create_book(new_book: dict = Body(...)):
     """
     Function to add a new book to BOOKS constant
     """
@@ -92,7 +91,7 @@ async def delete_book(book_title):
     Function to delete a book using it's title
     """
     for i, book in enumerate(BOOKS):
-        if BOOKS[i].get('title', '').casefold() == book_title:
+        if book.get('title', '').casefold() == book_title:
             BOOKS.pop(i)
             return {"message": f"Book '{book_title}' was deleted successfully"}
             break
