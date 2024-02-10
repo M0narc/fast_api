@@ -1,5 +1,6 @@
 from fastapi import Body, FastAPI, HTTPException
 from book import Book, BookRequest,BOOKS
+from utils import find_book_id
 
 app = FastAPI()
 
@@ -69,7 +70,7 @@ async def create_book(book_request: BookRequest):
     Function to add a new book to BOOKS constant
     """
     new_book = Book(**book_request.model_dump())
-    BOOKS.append(new_book)
+    BOOKS.append(find_book_id(new_book))
 
 
 @app.put("/books/update_book")
