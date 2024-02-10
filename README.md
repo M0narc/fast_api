@@ -26,9 +26,19 @@ example => /?category=science
 %20 is for line jumps
 example => /title%20one
 
+# Pydantics
+
+used for data modeling, data parsing and has efficient error handling.
+
+is commonly used as a  resource for data validation and how to handle data coming to our FastAPI application.
+
 
 
 TODO:
 
 update every function later on with try except or HTTP EXCEPTIONS &
 check if logic applies
+
+
+TODO RIGHT NOW
+check every function rn
