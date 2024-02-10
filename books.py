@@ -1,5 +1,5 @@
 from fastapi import Body, FastAPI, HTTPException
-from constants import BOOKS
+from book import Book, BookRequest,BOOKS
 
 app = FastAPI()
 
@@ -63,11 +63,12 @@ async def get_books_by_author_name(author_name: str):
     return books_to_return
 
 
-@app.post("/books/create_book")
-async def create_book(new_book: dict = Body(...)):
+@app.post("/books/create-book")
+async def create_book(book_request: BookRequest):
     """
     Function to add a new book to BOOKS constant
     """
+    new_book = Book(**book_request.model_dump())
     BOOKS.append(new_book)
 
 
