@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, HTTPException
+from fastapi import Body, FastAPI, HTTPException, Path
 from book import Book, BookRequest, BOOKS
 from utils import find_book_id, return_year
 
@@ -15,14 +15,14 @@ async def read_all_books():
 
 
 @app.get("/books/{id}")
-async def get_book_by_id(book_id: int):
+async def get_book_by_id(id: int = Path(gt=0)):
     """
     Endpoint to get book by id
     """
     for book in BOOKS:
-        if book.id == book_id:
+        if book.id == id:
             return book
-    raise ValueError(f'Book not found with ID: {book_id}')
+    raise ValueError(f'Book not found with ID: {id}')
 
 
 @app.get("/books/")
