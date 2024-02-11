@@ -23,6 +23,16 @@ class BookRequest(BaseModel):
     rating: int = Field(gt=-1, lt=6)
 
 
+    class Config:
+        json_schema_extra = {
+            'example': {
+                'title': 'A new book',
+                'author': 'Author Name',
+                'description': 'a brief description if possible',
+                'rating': 5
+            }
+        }
+
 BOOKS = [
     Book(id=1, title="The Enchanted Garden", author="Luna Mystique", description="A magical journey through a secret garden filled with talking animals and enchanted plants.", rating=4),
     Book(id=2, title="Stellar Adventures", author="Cosmo Explorer", description="Join Captain Nova on an intergalactic quest to explore distant galaxies and encounter extraterrestrial civilizations.", rating=5),
