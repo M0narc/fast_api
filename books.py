@@ -47,6 +47,7 @@ async def create_book(book_request: BookRequest):
     """
     new_book = Book(**book_request.model_dump())
     BOOKS.append(find_book_id(new_book))
+    return {'message': f'Book {new_book.title} has been created.'}
 
 
 @app.put("/books/update-book")
@@ -61,15 +62,15 @@ async def update_book(book_request: BookRequest):
                             author=book_request.author,
                             description=book_request.description,
                             rating=book_request.rating)
+            return {'message': f'Book {book.title} has been updated.'}
 
 
-@app.delete("/books/delete_book/{book_title}") # update
-async def delete_book(book_title):
+@app.delete("/books//{book_id}") # update
+async def delete_book(book_id: int):
     """
-    Function to delete a book using it's title
+    endpoint to delete a book using it's title
     """
     for i, book in enumerate(BOOKS):
-        if book.get('title', '').casefold() == book_title:
-            BOOKS.pop(i)
-            return {"message": f"Book '{book_title}' was deleted successfully"}
-            break
+        if book.id == book_id:
+            del BOOKS[i]
+            return {'message': f'Book {book.title} has been deleted.'}
