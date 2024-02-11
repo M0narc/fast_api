@@ -1,6 +1,7 @@
 from fastapi import Body, FastAPI, HTTPException
 from book import Book, BookRequest, BOOKS
-from utils import find_book_id
+from utils import find_book_id, return_year
+
 
 app = FastAPI()
 
@@ -40,6 +41,20 @@ async def get_books_by_rating(book_rating: int):
                             detail=f'no matching books found for rating: {book_rating}')
 
 
+@app.get("/books/published_date/{pd}")
+async def get_by_published_date(pd: str):
+    """
+    get books by published date
+    """
+    matching_books = [book for book in BOOKS if return_year(book.publish_date)[0] == pd]
+    if matching_books:
+        return matching_books
+    else:
+        raise HTTPException(status_code=404,
+                        detail=f'Date {pd} has no book published.')
+
+
+
 @app.post("/books/create-book")
 async def create_book(book_request: BookRequest):
     """
@@ -55,13 +70,15 @@ async def update_book(book_request: BookRequest):
     """
     endpoint to update books.
     """
+
     for i, book in enumerate(BOOKS):
         if book.id == book_request.id:
             BOOKS[i] = Book(id=book.id,
                             title=book_request.title,
                             author=book_request.author,
                             description=book_request.description,
-                            rating=book_request.rating)
+                            rating=book_request.rating,
+                            publish_date=book_request.publish_date)
             return {'message': f'Book {book.title} has been updated.'}
 
 
