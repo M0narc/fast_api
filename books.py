@@ -65,7 +65,7 @@ async def update_book(book_request: BookRequest):
             return {'message': f'Book {book.title} has been updated.'}
 
 
-@app.delete("/books//{book_id}") # update
+@app.delete("/books//{book_id}")
 async def delete_book(book_id: int):
     """
     endpoint to delete a book using it's title
