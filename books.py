@@ -39,13 +39,28 @@ async def get_books_by_rating(book_rating: int):
         raise HTTPException(status_code=404,
                             detail=f'no matching books found for rating: {book_rating}')
 
+
 @app.post("/books/create-book")
 async def create_book(book_request: BookRequest):
     """
-    Function to add a new book to BOOKS constant
+    endpoint to add a new book to BOOKS constant
     """
     new_book = Book(**book_request.model_dump())
     BOOKS.append(find_book_id(new_book))
+
+
+@app.put("/books/update-book")
+async def update_book(book_request: BookRequest):
+    """
+    endpoint to update books.
+    """
+    for i, book in enumerate(BOOKS):
+        if book.id == book_request.id:
+            BOOKS[i] = Book(id=book.id,
+                            title=book_request.title,
+                            author=book_request.author,
+                            description=book_request.description,
+                            rating=book_request.rating)
 
 
 @app.delete("/books/delete_book/{book_title}") # update
