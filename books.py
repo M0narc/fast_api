@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, HTTPException, Path
+from fastapi import Body, FastAPI, HTTPException, Path, Query
 from book import Book, BookRequest, BOOKS
 from utils import find_book_id, return_year
 
@@ -26,7 +26,7 @@ async def get_book_by_id(id: int = Path(gt=0)):
 
 
 @app.get("/books/")
-async def get_books_by_rating(book_rating: int):
+async def get_books_by_rating(book_rating: int = Query(gt=0, lt=6)):
     """
     endpoint to return books by rating through queryparams
     """
