@@ -22,7 +22,7 @@ async def get_book_by_id(id: int = Path(gt=0)):
     for book in BOOKS:
         if book.id == id:
             return book
-    raise ValueError(f'Book not found with ID: {id}')
+    raise HTTPException(status_code=404, detail=f'Book not found with ID: {id}')
 
 
 @app.get("/books/")
@@ -70,7 +70,7 @@ async def update_book(book_request: BookRequest):
     """
     endpoint to update books.
     """
-
+    book_updated = False
     for i, book in enumerate(BOOKS):
         if book.id == book_request.id:
             BOOKS[i] = Book(id=book.id,
@@ -79,7 +79,10 @@ async def update_book(book_request: BookRequest):
                             description=book_request.description,
                             rating=book_request.rating,
                             publish_date=book_request.publish_date)
+            book_updated = True
             return {'message': f'Book {book.title} has been updated.'}
+        if not book_updated:
+            raise HTTPException(status_code=404, detail='book not found')
 
 
 @app.delete("/books//{book_id}")
@@ -87,7 +90,11 @@ async def delete_book(book_id: int):
     """
     endpoint to delete a book using it's title
     """
+    book_deleted = False
     for i, book in enumerate(BOOKS):
         if book.id == book_id:
             del BOOKS[i]
+            book_deleted = True
             return {'message': f'Book {book.title} has been deleted.'}
+        if not book_deleted:
+            raise HTTPException(status_code=404, detail='book not found')
