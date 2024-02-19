@@ -42,3 +42,7 @@ check if logic applies
 
 TODO RIGHT NOW
 check every function rn
+
+book objects
+new book request and pydantic validation, status codes
+https get, puts and delets
