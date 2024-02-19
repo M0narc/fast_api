@@ -32,17 +32,15 @@ used for data modeling, data parsing and has efficient error handling.
 
 is commonly used as a  resource for data validation and how to handle data coming to our FastAPI application.
 
+new objectives
 
+To Do project.
 
-TODO:
+embed a SQL DB
+authentication jwt
+authorization (admin, normal users)
+hashing passwords
 
-update every function later on with try except or HTTP EXCEPTIONS &
-check if logic applies
+create new Todo table model for the app
 
-
-TODO RIGHT NOW
-check every function rn
-
-book objects
-new book request and pydantic validation, status codes
-https get, puts and delets
+using these todos to save records throughout the project
