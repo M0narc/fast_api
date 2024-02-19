@@ -1,12 +1,13 @@
 from fastapi import Body, FastAPI, HTTPException, Path, Query
 from book import Book, BookRequest, BOOKS
 from utils import find_book_id, return_year
+from starlette import status
 
 
 app = FastAPI()
 
 
-@app.get("/books")
+@app.get("/books", status_code=status.HTTP_200_OK)
 async def read_all_books():
     """
     endpoint to return all boks
@@ -14,7 +15,7 @@ async def read_all_books():
     return BOOKS
 
 
-@app.get("/books/{id}")
+@app.get("/books/{id}", status_code=status.HTTP_200_OK)
 async def get_book_by_id(id: int = Path(gt=0)):
     """
     Endpoint to get book by id
@@ -25,7 +26,7 @@ async def get_book_by_id(id: int = Path(gt=0)):
     raise HTTPException(status_code=404, detail=f'Book not found with ID: {id}')
 
 
-@app.get("/books/")
+@app.get("/books/", status_code=status.HTTP_200_OK)
 async def get_books_by_rating(book_rating: int = Query(gt=0, lt=6)):
     """
     endpoint to return books by rating through queryparams
@@ -41,7 +42,7 @@ async def get_books_by_rating(book_rating: int = Query(gt=0, lt=6)):
                             detail=f'no matching books found for rating: {book_rating}')
 
 
-@app.get("/books/published_date/{pd}")
+@app.get("/books/published_date/{pd}", status_code=status.HTTP_200_OK)
 async def get_by_published_date(pd: str):
     """
     get books by published date
@@ -55,7 +56,7 @@ async def get_by_published_date(pd: str):
 
 
 
-@app.post("/books/create-book")
+@app.post("/books/create-book", status_code=status.HTTP_201_CREATED)
 async def create_book(book_request: BookRequest):
     """
     endpoint to add a new book to BOOKS constant
@@ -65,7 +66,7 @@ async def create_book(book_request: BookRequest):
     return {'message': f'Book {new_book.title} has been created.'}
 
 
-@app.put("/books/update-book")
+@app.put("/books/update-book", status_code=status.HTTP_204_NO_CONTENT)
 async def update_book(book_request: BookRequest):
     """
     endpoint to update books.
@@ -85,7 +86,7 @@ async def update_book(book_request: BookRequest):
             raise HTTPException(status_code=404, detail='book not found')
 
 
-@app.delete("/books//{book_id}")
+@app.delete("/books//{book_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_book(book_id: int):
     """
     endpoint to delete a book using it's title
