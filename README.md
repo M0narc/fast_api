@@ -55,6 +55,10 @@ sqlite3 todos.db
 insert into todos (title, description, priority, complete) values ('study fastApi', 'finish DB part', 5, False);
 select * from todos;
 
+# update
+UPDATE todos SET complete=True where id=5;
+this updates ALL todos that have an id of 5
+
 .mode column is my favorite
       table is nice too
 
