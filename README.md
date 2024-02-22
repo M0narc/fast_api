@@ -1,5 +1,5 @@
 # fast_api
-a proyect done with fastAPI
+a project done with fastAPI
 
 # how to run
 uvicorn books:app --reload
