@@ -44,3 +44,19 @@ hashing passwords
 create new Todo table model for the app
 
 using these todos to save records throughout the project
+
+# sqlite first
+
+after downloading add it to your path if using windows
+then you can use it
+sqlite3 todos.db
+    .schema  # to see the tables within our db
+# insert
+insert into todos (title, description, priority, complete) values ('study fastApi', 'finish DB part', 5, False);
+select * from todos;
+
+.mode column is my favorite
+      table is nice too
+
+# delete
+delete from todos where id = 4
