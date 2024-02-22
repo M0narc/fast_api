@@ -55,7 +55,6 @@ async def get_by_published_date(pd: str):
                         detail=f'Date {pd} has no book published.')
 
 
-
 @app.post("/books/create-book", status_code=status.HTTP_201_CREATED)
 async def create_book(book_request: BookRequest):
     """
