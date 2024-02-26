@@ -60,8 +60,8 @@ async def create_todo(db: db_dependency, todo_request: TodoRequest):
 
 @app.put('/todo/{todo_id}', status_code=status.HTTP_204_NO_CONTENT)
 async def update_todo(db:db_dependency,
-                      todo_id: int,
-                      todo_request: TodoRequest):
+                      todo_request: TodoRequest,
+                      todo_id: int = Path(gt=0)):
     """
     endpoint to update todo by id
     """
