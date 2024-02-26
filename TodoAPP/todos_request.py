@@ -1,0 +1,18 @@
+from pydantic import BaseModel, Field
+
+
+class TodoRequest(BaseModel):
+    title: str = Field(min_length=3)
+    description: str = Field(min_length=3, max_length=100)
+    priority: int = Field(gt=0, lt=6)
+    complete: bool
+
+    class Config:
+        json_schema_extra = {
+            'example': {
+                'title': 'Todo Title',
+                'description': 'a brief description if possible',
+                'priority': 5,
+                'complete': False
+            }
+        }
