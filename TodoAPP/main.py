@@ -6,6 +6,7 @@ from starlette import status
 import models
 from models import Todos
 from database import engine, SessionLocal
+from todos_request import TodoRequest
 
 app = FastAPI()
 
@@ -36,8 +37,22 @@ async def read_all(db: db_dependency):
 
 @app.get('/todo/{todo_id}', status_code=status.HTTP_200_OK)
 async def read_todo_by_id(db: db_dependency, todo_id: int = Path(gt=0)):
+    """
+    endpoint to get all todos by id
+    """
     todo_model = db.query(Todos).filter(Todos.id == todo_id).first()
     if todo_model is not None:
         return todo_model
     raise HTTPException(status_code=404,
                         detail=f'item with ID: {todo_id} not found')
+
+
+@app.post('/todo', status_code=status.HTTP_201_CREATED)
+async def create_todo(db: db_dependency, todo_request: TodoRequest):
+    """
+    endpoint to create todo
+    """
+    todo_model = Todos(**todo_request.dict())
+
+    db.add(todo_model)
+    db.commit()

@@ -6,7 +6,7 @@ uvicorn books:app --reload
 
 URL: http://127.0.0.1:8000/books
 
-uvicorn books:app --reload --host localhost --port 8080
+uvicorn main:app --reload --host localhost --port 8080
 
 URL: http://localhost:8080/books
 
