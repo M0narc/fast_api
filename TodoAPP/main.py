@@ -59,7 +59,7 @@ async def create_todo(db: db_dependency, todo_request: TodoRequest):
 
 
 @app.put('/todo/{todo_id}', status_code=status.HTTP_204_NO_CONTENT)
-async def update_todo(db:db_dependency,
+async def update_todo(db: db_dependency,
                       todo_request: TodoRequest,
                       todo_id: int = Path(gt=0)):
     """
@@ -75,4 +75,15 @@ async def update_todo(db:db_dependency,
     todo_model.complete = todo_request.complete
 
     db.add(todo_model)
+    db.commit()
+
+@app.delete("/todo/{todo_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_todo(db: db_dependency, todo_id: int = Path(gt=0)):
+    """
+    endpoint to delete by id
+    """
+    todo_model = db.query(Todos).filter(Todos.id == todo_id).first()
+    if todo_model is None:
+        raise HTTPException(status_code=404, detail=f"todo with ID = {todo_id} not found in db")
+    db.query(Todos).filter(Todos.id == todo_id).delete()
     db.commit()
