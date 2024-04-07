@@ -67,3 +67,6 @@ this updates ALL todos that have an id of 5
 
 # delete
 delete from todos where id = 4
+
+# password hashing management
+it will be done with passlib and bcrypt (4.0.1)

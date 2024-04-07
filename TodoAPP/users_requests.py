@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class CreateUserRequests(BaseModel):
-    username: str = Field(min_length=8)
+    username: str
     email: str
     first_name: str
     last_name: str
