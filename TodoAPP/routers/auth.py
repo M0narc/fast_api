@@ -1,15 +1,36 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from starlette import status
+
+from database import SessionLocal
 from users_requests import CreateUserRequests
 from models import Users
 from passlib.context import CryptContext
 
 router = APIRouter()
 
+
+def get_db():
+    """
+    db dependency
+    """
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 
-@router.post("/auth/")
-async def create_users(create_user_request: CreateUserRequests):
+@router.post("/auth/", status_code=status.HTTP_201_CREATED)
+async def create_users(db: db_dependency,
+                       create_user_request: CreateUserRequests):
     """
     endpoint to create users, we will not be unpackig **create_user_request
     since we can't, we have a password right now in our models
@@ -25,4 +46,5 @@ async def create_users(create_user_request: CreateUserRequests):
         is_active=True
     )
 
-    return create_user_model
+    db.add(create_user_model)
+    db.commit()
